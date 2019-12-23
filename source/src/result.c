@@ -5,13 +5,14 @@
 Result* result_create(Scheme* scheme) {
     Result* result = (Result*)malloc(sizeof(Result));
 
-    result->sys_result = (SystemResult*)malloc(sizeof(SystemResult*));
+    result->sys_result = (SystemResult*)malloc(sizeof(SystemResult));
     result->sys_result->memory = 0;
     result->sys_result->time = 0.;
-
-    result->diffs = (Diff**)malloc(scheme->elements_len * sizeof(Diff));
+    
+    result->diffs = (Diff**)malloc(scheme->elements_len * sizeof(Diff*));
     result->diffs_len = scheme->elements_len;
     for (int i = 0; i < result->diffs_len; i++) {
+        result->diffs[i] = (Diff*)malloc(scheme->elements_len * sizeof(Diff));
         result->diffs[i]->element = scheme->elements[i];
         result->diffs[i]->doff1 = 0;
         result->diffs[i]->doff2 = 0;

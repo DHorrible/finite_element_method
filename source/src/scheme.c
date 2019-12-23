@@ -8,6 +8,7 @@
 
 Scheme* scheme_create(const char* cfg_name) {
     Scheme* scheme = (Scheme*)malloc(sizeof(Scheme));
+    scheme->elements = NULL;
     
     FILE* cfg_file = fopen(cfg_name, "r");
     assert_msg(cfg_file != NULL, "Can't open config file");
@@ -49,7 +50,7 @@ static int scheme_parse_conf(Scheme* scheme, FILE* cfg_file) {
         if (strstr(line, "elem:")) {
             is_conn = 0;
             scheme->elements_len = ++elem_len;
-            scheme->elements = realloc(scheme->elements, scheme->elements_len);
+            scheme->elements = (Element**)realloc(scheme->elements, scheme->elements_len * sizeof(Element*));
             scheme->elements[scheme->elements_len - 1] = element_create();
             scheme->elements[scheme->elements_len - 1]->conn_start_doff = last_conn_doff;
         } else {
@@ -74,22 +75,21 @@ static int scheme_parse_conf(Scheme* scheme, FILE* cfg_file) {
 
                 } else if (strstr(line, "mz")) {
 
+                }*/
+                
+                } else if (strstr(line, "conn:")) {
+                    is_conn = 1;
+                } else if (strstr(line, "l")) {
+                    is_conn = 0;
+                    scheme->elements[scheme->elements_len - 1]->length = get_cfg_double_val(line);
+                } else if (strstr(line, "s")) {
+                    is_conn = 0;
+                    scheme->elements[scheme->elements_len - 1]->square = get_cfg_double_val(line);
+                } else if (strstr(line, "e")) {
+                    is_conn = 0;
+                    scheme->elements[scheme->elements_len - 1]->hardness = get_cfg_double_val(line);
                 }
-                */
-            } else if (strstr(line, "conn:")) {
-                is_conn = 1;
-            } else if (strstr(line, "l")) {
-                is_conn = 0;
-                scheme->elements[scheme->elements_len - 1]->length = get_cfg_double_val(line);
-            } else if (strstr(line, "s")) {
-                is_conn = 0;
-                scheme->elements[scheme->elements_len - 1]->square = get_cfg_double_val(line);
-            } else if (strstr(line, "e")) {
-                is_conn = 0;
-                scheme->elements[scheme->elements_len - 1]->hardness = get_cfg_double_val(line);
-            }
-        }
-    
+            }   
         }
     }
     free(line);
