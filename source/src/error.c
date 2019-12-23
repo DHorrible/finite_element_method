@@ -8,5 +8,9 @@ void assert_msg(int expr, const char* msg) {
 }
 
 void error_msg(const char* msg) {
-    fprintf(stderr, "|ERROR|: %s!", msg);
+    fprintf(stderr, "|ERROR|: %s\n", msg);
+}
+
+void info_msg(const char* msg) {
+    fprintf(stderr, "|INFO|: %s\n", msg);
 }
