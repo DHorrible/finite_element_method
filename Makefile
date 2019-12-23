@@ -1,19 +1,21 @@
 TARGET = main.out
 
-# XXX: Don't forget backslash at the end of any line except the last one
-# Main
 HDRS = \
 	   source/include
 
 SRCS = \
 	   source/src/main.c \
+	   source/src/element.c \
+	   source/src/scheme.c \
+	   source/src/result.c \
+	   source/src/error.c \
 
 .PHONY: all main test clean
 
 all: main
 
 main: $(SRCS)
-	$(CC) -Wall -Wextra -Werror $(addprefix -I,$(HDRS)) -o $(TARGET) $(CFLAGS) $(SRCS) -lm
+	$(CC) $(addprefix -I,$(HDRS)) -o $(TARGET) $(CFLAGS) $(SRCS) -lm
 
 clean:
 	rm -f $(TARGET) $(TST_TARGET)
