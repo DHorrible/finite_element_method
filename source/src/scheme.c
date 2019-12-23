@@ -20,7 +20,7 @@ Scheme* scheme_create(const char* cfg_name) {
     fclose(cfg_file);    
     //printf("%p\n", scheme);
     scheme->result = result_create(scheme);
-    //printf("%p\n", scheme);
+    
     return scheme;
 }
 
@@ -47,6 +47,7 @@ static int scheme_parse_conf(Scheme* scheme, FILE* cfg_file) {
         fgets(line, STD_MAX_LEN_CFG_STR, cfg_file);
         
         if (strstr(line, "elem:")) {
+            is_conn = 0;
             scheme->elements_len = ++elem_len;
             scheme->elements = realloc(scheme->elements, scheme->elements_len);
             scheme->elements[scheme->elements_len - 1] = element_create();
@@ -60,21 +61,37 @@ static int scheme_parse_conf(Scheme* scheme, FILE* cfg_file) {
                     } else {
                         scheme->elements[scheme->elements_len - 1]->conn_finish_doff = get_cfg_int_val(line);
                     }
+                    /*
+                } else if (strstr(line, "fx")) {
 
-                    is_conn = 0;
+                } else if (strstr(line, "fy")) {
+
+                } else if (strstr(line, "fz")) {
+
+                } else if (strstr(line, "mx")) {
+
+                } else if (strstr(line, "my")) {
+
+                } else if (strstr(line, "mz")) {
+
                 }
+                */
             } else if (strstr(line, "conn:")) {
                 is_conn = 1;
             } else if (strstr(line, "l")) {
+                is_conn = 0;
                 scheme->elements[scheme->elements_len - 1]->length = get_cfg_double_val(line);
             } else if (strstr(line, "s")) {
+                is_conn = 0;
                 scheme->elements[scheme->elements_len - 1]->square = get_cfg_double_val(line);
             } else if (strstr(line, "e")) {
+                is_conn = 0;
                 scheme->elements[scheme->elements_len - 1]->hardness = get_cfg_double_val(line);
             }
         }
+    
+        }
     }
-
     free(line);
 
     return 0;

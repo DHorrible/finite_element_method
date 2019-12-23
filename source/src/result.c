@@ -27,8 +27,6 @@ Result* result_create(Scheme* scheme) {
 }
 
 void result_view(Result* result) {
-    //printf("%p", result);
-    /*
     for (int i = 0; i < result->diffs_len; i++) {
         printf(
             "Element %d:\n\tUx = %lf\n\tUy = %lf\n\tUz = %lf\n\tMx = %lf\n\tMy = %lf\n\tMz = %lf\n",
@@ -40,7 +38,6 @@ void result_view(Result* result) {
             result->diffs[i]->doff5,
             result->diffs[i]->doff6);
     }
-    */
 
 //    printf(
 //        "Time - %lf\tMemory = %d",
