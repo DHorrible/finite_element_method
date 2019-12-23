@@ -4,19 +4,16 @@
 #include "error.h"
 
 int main(int argc, char* argv[]) {
-    if (argc > 1) {
-        error_msg("Many arguments");
-        return 0;
-    }
+    assert_msg(argc <= 1, "Many arguments");
 
-    char* cfg_name = argc == 0
+    char* cfg_name = argc == 1
         ? STD_CFG_NAME
         : argv[0];
 
     Scheme* scheme = scheme_create(cfg_name);
-
+    
     scheme_solve(scheme);
-
+    
     result_view(scheme->result);
 
     scheme_free(scheme);
