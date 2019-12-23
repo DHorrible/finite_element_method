@@ -11,7 +11,7 @@ int main(int argc, char* argv[]) {
         : argv[0];
 
     Scheme* scheme = scheme_create(cfg_name);
-    
+
     scheme_solve(scheme);
     
     result_view(scheme->result);
