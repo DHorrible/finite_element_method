@@ -6,16 +6,21 @@
 #include "share.h"
 #include "error.h"
 
-Scheme* scheme_create(const char* cgf_name) {
+Scheme* scheme_create(const char* cfg_name) {
     Scheme* scheme = (Scheme*)malloc(sizeof(Scheme));
-
-    FILE* cfg_file = fopen(cgf_name, "r");
-    assert_msg(!(cfg_file == NULL), "Can't open config file");
-
+    
+    FILE* cfg_file = fopen(cfg_name, "r");
+    assert_msg(cfg_file != NULL, "Can't open config file");
+    
     scheme_parse_conf(scheme, cfg_file);
-
-    fclose(cfg_file);
-
+    
+    scheme->cfg_name = (char*)calloc(strlen(cfg_name) + 1, sizeof(char));
+    memcpy(scheme->cfg_name, cfg_name, strlen(cfg_name) + 1);
+    
+    fclose(cfg_file);    
+    //printf("%p\n", scheme);
+    scheme->result = result_create(scheme);
+    //printf("%p\n", scheme);
     return scheme;
 }
 
@@ -29,48 +34,49 @@ int scheme_solve(Scheme* scheme) {
 }
 
 static int scheme_parse_conf(Scheme* scheme, FILE* cfg_file) {
-    char buff[STD_MAX_LEN_CFG_STR] = {0};
+    char* line = (char*)calloc(STD_MAX_LEN_CFG_STR, sizeof(char));
     
-    int is_elem = 0;
     int is_conn = 0;
     int is_first_conn = 1;
 
     int elem_len = 0;
 
     int last_conn_doff = DOFF_ALL;
-
-    while (feof(cfg_file)) {
-        fgets(buff, STD_MAX_LEN_CFG_STR, cfg_file);
-        if (is_elem) {
+    
+    while (!feof(cfg_file)) {
+        fgets(line, STD_MAX_LEN_CFG_STR, cfg_file);
+        
+        if (strstr(line, "elem:")) {
+            scheme->elements_len = ++elem_len;
+            scheme->elements = realloc(scheme->elements, scheme->elements_len);
+            scheme->elements[scheme->elements_len - 1] = element_create();
+            scheme->elements[scheme->elements_len - 1]->conn_start_doff = last_conn_doff;
+        } else {
             if (is_conn) {
-                if (strstr(buff, "csrt")) {
+                if (strstr(line, "csrt")) {
                     if (is_first_conn) {
                         is_first_conn = 0;
-                        scheme->elements[scheme->elements_len - 1]->conn_start_doff = get_cfg_int_val(buff);
+                        scheme->elements[scheme->elements_len - 1]->conn_start_doff = get_cfg_int_val(line);
                     } else {
-                        scheme->elements[scheme->elements_len - 1]->conn_finish_doff = get_cfg_int_val(buff);
+                        scheme->elements[scheme->elements_len - 1]->conn_finish_doff = get_cfg_int_val(line);
                     }
+
+                    is_conn = 0;
                 }
-            } else if (strstr(buff, "conn:")) {
+            } else if (strstr(line, "conn:")) {
                 is_conn = 1;
-            } else if (strstr(buff, "l")) {
-                scheme->elements[scheme->elements_len - 1]->length = get_cfg_double_val(buff);
-            } else if (strstr(buff, "s")) {
-                scheme->elements[scheme->elements_len - 1]->square = get_cfg_double_val(buff);
-            } else if (strstr(buff, "e")) {
-                scheme->elements[scheme->elements_len - 1]->hardness = get_cfg_double_val(buff);
-            }
-        } else {
-            if (strstr(buff, "elem:")) {
-                is_elem = 1;
-                scheme->elements_len = ++elem_len;
-                scheme->elements = realloc(scheme->elements, scheme->elements_len);
-                scheme->elements[scheme->elements_len - 1] = element_create();
-                scheme->elements[scheme->elements_len - 1]->conn_start_doff = last_conn_doff;
+            } else if (strstr(line, "l")) {
+                scheme->elements[scheme->elements_len - 1]->length = get_cfg_double_val(line);
+            } else if (strstr(line, "s")) {
+                scheme->elements[scheme->elements_len - 1]->square = get_cfg_double_val(line);
+            } else if (strstr(line, "e")) {
+                scheme->elements[scheme->elements_len - 1]->hardness = get_cfg_double_val(line);
             }
         }
     }
-    
+
+    free(line);
+
     return 0;
 }
 
@@ -83,7 +89,7 @@ static int get_cfg_int_val(const char* str) {
         ++ptr;
     }
 
-    assert_msg(isdigit(ptr), "Config don't contanits int value");  
+    assert_msg(isdigit(*ptr), "Config don't contanits int value");  
 
     return atoi(ptr);
 }
@@ -96,9 +102,9 @@ static double get_cfg_double_val(const char* str) {
     while (!isdigit(*ptr) && *ptr != '\n' && *ptr != EOF) {
         ++ptr;
     }
-    
-    assert_msg(isdigit(ptr), "Config don't contanits double value");
 
+    assert_msg(isdigit(*ptr), "Config don't contanits double value");
+    
     return atof(ptr);
 }
 
