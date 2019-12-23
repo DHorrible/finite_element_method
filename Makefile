@@ -1,14 +1,19 @@
-CC=gcc
-CFLAGS=-c -Wall
-SRC_DIR=./source/src/
-SOURCES=$(SRC_DIR)main.c
-OBJECTS=$(SOURCES:.c=.o)
-EXECUTABLE=method
+TARGET = main.out
 
-all: $(SOURCES) $(EXECUTABLE)
+# XXX: Don't forget backslash at the end of any line except the last one
+# Main
+HDRS = \
+	   source/include
 
-$(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(OBJECTS) -o $@
+SRCS = \
+	   source/src/main.c \
 
-.c.o:
-	$(CC) $(CFLAGS) $< -o $@
+.PHONY: all main test clean
+
+all: main
+
+main: $(SRCS)
+	$(CC) -Wall -Wextra -Werror $(addprefix -I,$(HDRS)) -o $(TARGET) $(CFLAGS) $(SRCS) -lm
+
+clean:
+	rm -f $(TARGET) $(TST_TARGET)
