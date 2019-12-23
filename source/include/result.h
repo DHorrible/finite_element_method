@@ -2,8 +2,11 @@
 #define RESULT_H
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "element.h"
+
+typedef struct Scheme Scheme;
 
 typedef struct SystemResult {
     double time;
@@ -23,8 +26,11 @@ typedef struct Diff {
 
 typedef struct Result {
     Diff** diffs;
+    int diffs_len;
     SystemResult* sys_result;
 } Result;
+
+Result* result_create(Scheme* scheme);
 
 // For pretty output
 void result_view(Result* result);
