@@ -25,15 +25,6 @@ Scheme* scheme_create(const char* cfg_name) {
     return scheme;
 }
 
-int scheme_solve(Scheme* scheme) {
-    result_start_solve(scheme->result);
-    
-    // TODO: Solve
-
-    result_stop_solve(scheme->result);
-    return 0;
-}
-
 static int scheme_parse_conf(Scheme* scheme, FILE* cfg_file) {
     char* line = (char*)calloc(STD_MAX_LEN_CFG_STR, sizeof(char));
     
@@ -159,7 +150,7 @@ static double get_cfg_double_val(const char* str) {
 void scheme_free(Scheme* scheme) {
     result_free(scheme->result);
     for (int i = 0; i < scheme->elements_len; i++) {
-        free(scheme->elements[i]);
+        element_free(scheme->elements[i]);
     }
     free(scheme->elements);
     free(scheme->cfg_name);

@@ -16,7 +16,6 @@ typedef struct Scheme {
 } Scheme;
 
 Scheme* scheme_create(const char* cgf_name);
-int scheme_solve(Scheme* scheme);
 
 // Free memory
 void scheme_free(Scheme* scheme);
