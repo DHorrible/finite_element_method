@@ -19,12 +19,12 @@ typedef struct Element {
     double length;
     double square;
     double hardness;
-    //Connection* ficonn
-    int conn_start_doff;
-    int conn_finish_doff;
-
-} Element;
+    Connection* conn_start;
+    Connection* conn_finish;
+ } Element;
 
 Element* element_create();
+void element_free(Element* element);
+void update_doff(Connection* connection, int cstr);
 
 #endif
