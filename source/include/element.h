@@ -27,4 +27,5 @@ Element* element_create();
 void element_free(Element* element);
 void update_doff(Connection* connection, int cstr);
 void set_csrt(int* doff, int csrt);
+
 #endif
