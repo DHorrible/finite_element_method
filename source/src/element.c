@@ -34,18 +34,8 @@ void element_free(Element* element) {
     free(element);
 }
 
-void update_doff(Connection* connection, int cstr) {
-    switch (cstr)
-    {
-    case 0:
-        connection->doff &= CSTR0;
-        break;
-    case 1:
-        connection->doff &= CSTR1;
-        break;
-    default:
-        break;
-    }
+void update_doff(Connection* connection, int csrt) {
+    set_csrt(&(connection->doff), csrt);
 
     if ((connection->doff & 0x100000) == 0) {
         connection->fx = 0.;   
@@ -64,5 +54,19 @@ void update_doff(Connection* connection, int cstr) {
     }
     if ((connection->doff & 0x000001) == 0) {
         connection->mz = 0.;   
+    }
+}
+
+void set_csrt(int* doff, int csrt) {
+    switch (csrt)
+    {
+    case 0:
+        *doff &= CSTR0;
+        break;
+    case 1:
+        *doff &= CSTR1;
+        break;
+    default:
+        break;
     }
 }

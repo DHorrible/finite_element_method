@@ -7,12 +7,12 @@
 
 typedef struct Connection {
     int doff;
-    int fx;
-    int fy;
-    int fz;
-    int mx;
-    int my;
-    int mz;
+    double fx;
+    double fy;
+    double fz;
+    double mx;
+    double my;
+    double mz;
 } Connection;
 
 typedef struct Element {
@@ -26,5 +26,5 @@ typedef struct Element {
 Element* element_create();
 void element_free(Element* element);
 void update_doff(Connection* connection, int cstr);
-
+void set_csrt(int* doff, int csrt);
 #endif
