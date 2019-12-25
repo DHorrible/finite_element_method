@@ -9,6 +9,7 @@ SRCS = \
 	   source/src/scheme.c \
 	   source/src/result.c \
 	   source/src/error.c \
+	   source/src/method.c
 
 .PHONY: all main test clean
 
