@@ -7,3 +7,8 @@ void method_solve(Scheme* scheme) {
 
     result_stop_solve(scheme->result);
 }
+
+static double** get_fin_elem_mtx(const Element* element) {
+    // TODO:
+    return NULL;
+}

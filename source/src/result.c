@@ -9,20 +9,18 @@ Result* result_create(Scheme* scheme) {
     result->sys_result->memory = 0;
     result->sys_result->time = 0.;
     
-    result->diffs = (Diff**)malloc(scheme->elements_len * sizeof(Diff*));
     result->diffs_len = scheme->elements_len;
+    result->diffs = (Diff**)malloc(result->diffs_len * sizeof(Diff*));
     for (int i = 0; i < result->diffs_len; i++) {
         result->diffs[i] = (Diff*)malloc(scheme->elements_len * sizeof(Diff));
         result->diffs[i]->element = scheme->elements[i];
-        result->diffs[i]->doff1 = 0;
-        result->diffs[i]->doff2 = 0;
-        result->diffs[i]->doff3 = 0;
-        result->diffs[i]->doff4 = 0;
-        result->diffs[i]->doff5 = 0;
-        result->diffs[i]->doff6 = 0;
+        result->diffs[i]->doff1 = 0.;
+        result->diffs[i]->doff2 = 0.;
+        result->diffs[i]->doff3 = 0.;
+        result->diffs[i]->doff4 = 0.;
+        result->diffs[i]->doff5 = 0.;
+        result->diffs[i]->doff6 = 0.;
     }
-
-    scheme->result = result;
 
     return result;
 }
@@ -40,10 +38,10 @@ void result_view(Result* result) {
             result->diffs[i]->doff6);
     }
 
-//    printf(
-//        "Time - %lf\tMemory = %d",
-//        result->sys_result->time,
-//        result->sys_result->memory);
+    printf(
+        "Time - %lf\tMemory = %d\n",
+        result->sys_result->time,
+        result->sys_result->memory);
 }
 
 void result_start_solve(Result* result) {
@@ -56,5 +54,9 @@ void result_stop_solve(Result* result) {
 
 void result_free(Result* result) {
     free(result->sys_result);
+    for (int i = 0; i < result->diffs_len; i++) {
+        free(result->diffs[i]);
+    }
+    free(result->diffs);
     free(result);
 }

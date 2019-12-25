@@ -24,5 +24,6 @@ void scheme_free(Scheme* scheme);
 static int scheme_parse_conf(Scheme* scheme, FILE* cfg_file);
 static int get_cfg_int_val(const char* str);
 static double get_cfg_double_val(const char* str);
+static int get_cfg_csrt_arr(char** ptr);
 
 #endif

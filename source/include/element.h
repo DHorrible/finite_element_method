@@ -2,11 +2,12 @@
 #define ELEMENT_H
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "share.h"
 
 typedef struct Connection {
-    int doff;
+    unsigned doff;
     double fx;
     double fy;
     double fz;
@@ -16,16 +17,16 @@ typedef struct Connection {
 } Connection;
 
 typedef struct Element {
-    double length;
-    double square;
-    double hardness;
+    double l;
+    double a;
+    double b;
+    double e;
     Connection* conn_start;
     Connection* conn_finish;
- } Element;
+} Element;
 
 Element* element_create();
 void element_free(Element* element);
-void update_doff(Connection* connection, int cstr);
-void set_csrt(int* doff, int csrt);
+void update_doff(Connection* connection, unsigned cstr);
 
 #endif

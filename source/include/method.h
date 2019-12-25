@@ -7,4 +7,6 @@
 
 void method_solve(Scheme* scheme);
 
+static double** get_fin_elem_mtx(const Element* element);
+
 #endif

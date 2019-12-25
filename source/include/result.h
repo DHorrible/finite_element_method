@@ -26,7 +26,7 @@ typedef struct Diff {
 
 typedef struct Result {
     Diff** diffs;
-    int diffs_len;
+    unsigned diffs_len;
     SystemResult* sys_result;
 } Result;
 
