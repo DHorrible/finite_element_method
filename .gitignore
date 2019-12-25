@@ -1,3 +1,9 @@
+# project
+*.conf
+
+# vscode
+.vscode/*
+
 # Prerequisites
 *.d
 
