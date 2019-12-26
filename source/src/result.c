@@ -39,7 +39,7 @@ void result_view(Result* result) {
     }
 
     printf(
-        "Time - %.10lf\tMemory = %d\n",
+        "Time - %.10lfs\tMemory = %d\nb",
         result->sys_result->time,
         result->sys_result->memory);
 }
