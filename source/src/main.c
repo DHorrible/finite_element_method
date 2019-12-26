@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
     method_solve(scheme);
     
     result_view(scheme->result);
-
+    /*
     for (int i = 0; i < scheme->elements_len; i++) {
         printf(
             "element %d:\n%lf\n%lf\n%lf\n%lf\n",
@@ -47,7 +47,7 @@ int main(int argc, char* argv[]) {
             scheme->elements[i]->conn_finish->mz);
             
     }
-
+    */
     //scheme_free(scheme);
 
     return 0;
