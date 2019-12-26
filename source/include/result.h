@@ -35,10 +35,6 @@ Result* result_create(Scheme* scheme);
 // For pretty output
 void result_view(Result* result);
 
-// For set system result
-void result_start_solve(Result* result);
-void result_stop_solve(Result* result);
-
 // Free memory
 void result_free(Result* result);
 

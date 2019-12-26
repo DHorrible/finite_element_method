@@ -39,17 +39,9 @@ void result_view(Result* result) {
     }
 
     printf(
-        "Time - %lf\tMemory = %d\n",
+        "Time - %.10lf\tMemory = %d\n",
         result->sys_result->time,
         result->sys_result->memory);
-}
-
-void result_start_solve(Result* result) {
-    // TODO:
-}
-
-void result_stop_solve(Result* result) {
-    // TODO:
 }
 
 void result_free(Result* result) {
